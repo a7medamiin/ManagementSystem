@@ -1,0 +1,69 @@
+﻿@model IEnumerable<UserVm>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<a asp-action="Create" class="btn btn-success mt-3">Create New User</a>
+
+@if (TempData["Success"] is not null)
+{
+    <div class="alert alert-success">
+        <p> @TempData["Success"]</p>
+    </div>
+}
+
+@if (Model != null && Model.Any())
+{
+    <h1 class="mt-5">All Users</h1>
+
+    <form class="row">
+        <div class="col-10">
+            <input class="form-control" type="text" placeholder="Users's Email" name="email" />
+        </div>
+        <div class="col-2">
+            <input type="submit" class="btn btn-info" value="Search" />
+        </div>
+
+    </form>
+
+    <table class="table table-striped table-hover mt-3">
+        <thead>
+            <tr>
+                <td>@Html.DisplayNameFor(e => e.Id)</td>
+                <td>@Html.DisplayNameFor(e => e.Fname)</td>
+                <td>@Html.DisplayNameFor(e => e.Lname)</td>
+                <td>@Html.DisplayNameFor(e => e.Email)</td>
+                <td>@Html.DisplayNameFor(e => e.Roles)</td>
+                <td>Details</td>
+                <td>Update</td>
+                <td>Delete</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td class="pt-4">@user.Id</td>
+                    <td class="pt-4">@user.Fname</td>
+                    <td class="pt-4">@user.Lname</td>
+                    <td class="pt-4">@Html.DisplayFor(e => user.Email)</td>
+                    <td class="pt-4">@string.Join(",",user.Roles)</td>
+
+
+
+                    <partial name="_Buttons" model="user.Id"></partial>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="mt-5 alert alert-warning">
+        <h1>No Users</h1>
+    </div>
+}
+
+
